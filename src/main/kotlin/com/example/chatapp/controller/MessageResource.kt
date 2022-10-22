@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController
 class MessageResource(
     private val messageService: MessageService
 ) {
-
     @GetMapping("/api/v1/fakeMessages")
     fun fakeMessages(): List<Message> = messageService.findFakeMessages()
 
