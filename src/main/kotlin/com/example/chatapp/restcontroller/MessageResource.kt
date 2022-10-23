@@ -1,4 +1,4 @@
-package com.example.chatapp.controller
+package com.example.chatapp.restcontroller
 
 import com.example.chatapp.model.Message
 import com.example.chatapp.service.MessageService
