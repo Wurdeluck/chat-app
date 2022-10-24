@@ -12,9 +12,9 @@ class MessageServiceImpl(
     override fun findFakeMessages(): List<Message> {
         val faker = faker {}
         return mutableListOf(
-            Message(1L, faker.random.randomString()),
-            Message(2L, faker.random.randomString()),
-            Message(3L, faker.random.randomString()),
+            Message(1L, faker.random.randomString(), 1L),
+            Message(2L, faker.random.randomString(), 1L),
+            Message(3L, faker.random.randomString(), 1L),
         )
     }
 

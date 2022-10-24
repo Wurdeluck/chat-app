@@ -18,10 +18,10 @@ function connect() {
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
+        registerUser()
         stompClient.subscribe('/topic/messages', function (message) {
-            showMessages(JSON.parse(message.body).text);
+            showMessages(JSON.parse(message.body));
         });
-        sendName()
     });
 }
 
@@ -33,20 +33,24 @@ function disconnect() {
     console.log("Disconnected");
 }
 
-function sendName() {
-    stompClient.send("/app/message", {}, JSON.stringify({'text': $("#name").val()}));
+// function sendName() {
+//     stompClient.send("/app/message", {}, JSON.stringify({'text': $("#name").val()}));
+// }
+
+function registerUser() {
+    stompClient.send("/app/user", {}, JSON.stringify({'name': $("#name").val()}));
 }
 
 function sendTextMessage() {
     stompClient.send("/app/message", {}, JSON.stringify({'text': $("#textMessage").val()}));
 }
 
-function showGreeting(message) {
-    $("#greetings").append("<tr><td>" + message + "</td></tr>");
-}
+// function showGreeting(message) {
+//     $("#greetings").append("<tr><td>" + message + "</td></tr>");
+// }
 
 function showMessages(message) {
-    $("#messages").append("<tr><td>" + message + "</td></tr>");
+    $("#messages").append("<tr><td>" + message.text + "</td></tr>");
 }
 
 $(function () {

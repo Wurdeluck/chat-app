@@ -12,13 +12,13 @@ class WebsocketMessageController(
     private val messageService: MessageService
 ) {
 
-    @MessageMapping("/hello")
-    @SendTo("/topic/messages")
-    @Throws(Exception::class)
-    fun greeting(name: String): Message? {
-        Thread.sleep(1000) // simulated delay
-        return Message(1L, "Hello, $name")
-    }
+    // @MessageMapping("/hello")
+    // @SendTo("/topic/messages")
+    // @Throws(Exception::class)
+    // fun greeting(name: String): Message? {
+    //     Thread.sleep(1000) // simulated delay
+    //     return Message(1L, "Hello, $name")
+    // }
 
     @MessageMapping("/message")
     @SendTo("/topic/messages")
