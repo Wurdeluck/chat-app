@@ -1,6 +1,5 @@
 package com.example.chatapp.websocketcontroller
 
-import com.example.chatapp.model.Message
 import com.example.chatapp.model.User
 import com.example.chatapp.service.UserService
 import org.slf4j.LoggerFactory
@@ -14,11 +13,12 @@ class WsUserController(
     private val userService: UserService
 ) {
     @MessageMapping("/user")
-    @SendTo("/topic/messages")
+    @SendTo("/topic/users")
     @Throws(Exception::class)
-    fun post(user: User): Message? {
+    fun post(user: User): User? {
         logger.info("Saving user ${user.name}")
-        return Message(userService.saveUser(user).name)
+        // val currentTime = Instant.now().toEpochMilli()
+        return userService.saveUser(user)
     }
 
     @MessageMapping("/users")

@@ -1,4 +1,5 @@
 var stompClient = null;
+var users = {};
 
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
@@ -19,6 +20,10 @@ function connect() {
         setConnected(true);
         console.log('Connected: ' + frame);
         registerUser()
+        stompClient.subscribe('/topic/users', function (message) {
+            showUserJoined(JSON.parse(message.body));
+            saveUserIfNeeded(JSON.parse(message.body));
+        });
         stompClient.subscribe('/topic/messages', function (message) {
             showMessages(JSON.parse(message.body));
         });
@@ -42,7 +47,25 @@ function registerUser() {
 }
 
 function sendTextMessage() {
-    stompClient.send("/app/message", {}, JSON.stringify({'text': $("#textMessage").val()}));
+    stompClient.send("/app/message", {}, JSON.stringify({'text': $("#textMessage").val(), 'userId': getUserIdByName($("#name").val())}));
+}
+
+function getUserIdByName(name) {
+    for (const [key, value] of Object.entries(users)) {
+        if (value === name) {
+            return key
+        }
+    }
+}
+
+function saveUserIfNeeded(user) {
+    if (user.name in Object.values(users)) {
+        alert("Choose another name!")
+        return
+    }
+    if (!(user.id in users)) {
+        users[user.id] = user.name
+    }
 }
 
 // function showGreeting(message) {
@@ -50,7 +73,11 @@ function sendTextMessage() {
 // }
 
 function showMessages(message) {
-    $("#messages").append("<tr><td>" + message.text + "</td></tr>");
+    $("#messages").append("<tr><td>" + new Date(message.sentAt).toLocaleTimeString() + "[" + users[message.userId] + "]: " + message.text + "</td></tr>");
+}
+
+function showUserJoined(user) {
+    $("#messages").append("<tr><td>" + user.name + " joined chat! </td></tr>");
 }
 
 $(function () {

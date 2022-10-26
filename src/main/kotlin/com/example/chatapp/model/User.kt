@@ -14,7 +14,10 @@ data class User(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long,
 
-    val name: String
+    val name: String,
+
+    // @OneToMany(targetEntity = Message::class)
+    // val messages: List<Message>
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

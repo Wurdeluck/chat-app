@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS messages (
     id                     BIGINT       NOT NULL  PRIMARY KEY,
     text                   VARCHAR      NOT NULL,
     user_id                BIGINT       NOT NULL,
-    AAA                    BIGINT       NOT NULL
+    sent_at                BIGINT       NOT NULL
 );
 
 ALTER TABLE messages
